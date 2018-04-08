@@ -1,0 +1,327 @@
+@import "_variable"
+@import "_icons"
+//reset ul,li style
+ul, li
+	margin 0
+	padding 0
+	list-style none
+	
+//button style
+.btn
+	width auto
+	height button-default
+	padding 0 space * 1.5
+	display inline-block
+	line-height 1
+	white-space nowrap
+	cursor pointer
+	background #fff
+	border 1px solid #d8dce5
+	color #5a5e66
+	-webkit-appearance none
+	text-align center
+	box-sizing border-box
+	outline 0
+	transition .1s
+	font-size 14px
+	border-radius 4px
+	&:hover, &:focus
+		color text-color-main-hover
+		border-color bg-color-main
+	&.btn-main
+		color text-color-white
+		background bg-color-main
+		border-color bg-color-main
+		&:hover, &:focus
+			background bg-color-main-hover
+			border-color bg-color-main-hover
+
+//search box for tree
+.icons-box
+	display inline-block
+	width 200px
+	position relative
+	.icons-input
+		width 100%
+		height button-default
+		padding 0 30px 0 space
+		border 1px solid border-color-default
+		line-height button-default
+		box-sizing border-box
+		transition border-color .2s cubic-bezier(.645,.045,.355,1)
+		border-radius 2px
+		color #5a5e66
+		outline none
+		&:hover
+			border-color boder-color-hover
+		&:focus
+			border-color border-color-focus
+			& + .icons
+				color #555
+		&::-webkit-input-placeholder
+			color text-color-light
+		&:-moz-placeholder
+			color text-color-light
+		&:-ms-input-placeholder
+			color text-color-light
+	.icons
+		font-size 12px
+		position absolute
+		right 10px
+		top 50%
+		margin-top -6px
+		cursor pointer
+		color text-color-light
+			&:hover, &:focus
+				color text-color-main-hover
+	&.small
+		.icons-input
+			height button-small
+			line-height button-small
+	&.big
+		.icons-input
+			height button-big
+			line-height button-big
+.no-data
+	padding space
+	line-height 1.5em
+	color text-color-light
+
+//checkbox style for tree
+.checkbox-input
+	&.is-checked
+		.checkbox-inner
+			background-color bg-color-main
+			border-color border-color-focus
+			&:after
+				transform rotate(45deg) scaleY(1)
+
+	.checkbox-inner
+		display inline-block
+		position relative
+		border 1px solid #d8dce5
+		border-radius 2px
+		-webkit-box-sizing border-box
+		box-sizing border-box
+		width 14px
+		height 14px
+		background-color bg-color-white
+		z-index 1
+		transition border-color .25s cubic-bezier(.71,-.46,.29,1.46),background-color .25s cubic-bezier(.71,-.46,.29,1.46)
+		&:hover, &:foucs
+			border-color border-color-focus
+		&:after
+			-webkit-box-sizing content-box
+			box-sizing content-box
+			content ""
+			border 1px solid #fff
+			border-left 0
+			border-top 0
+			height 7px
+			left 4px
+			position absolute
+			top 1px
+			-webkit-transform rotate(45deg) scaleY(0)
+			transform rotate(45deg) scaleY(0)
+			width 3px
+			transition transform .15s cubic-bezier(.71,-.46,.88,.6) 50ms
+			transform-origin center
+		& + .checkbox-text
+			vertical-align middle
+			margin-left 2px
+
+// tree and tree selector style
+.tree-container, .tree-selector
+	.icons-box
+		display block
+		width auto
+.tree-container
+	position relative
+	background bg-color-white
+	.icons-box
+		margin-bottom space
+		.icons
+			font-size 12px
+	.over-layer
+		position absolute
+		top 0
+		bottom 0
+		left 0
+		right 0
+		background rgba(255, 255, 255, 0.7)
+	.layer
+		width 100%
+		max-width 320px
+		border 1px solid border-color-default
+		border-radius 4px
+		background bg-color-white
+		position absolute
+		top 50%
+		left 50%
+		transform translate(-50%, -50%)
+		box-sizing border-box
+		.icons-close
+			float right
+		.title
+			margin 0
+			font-size font-size-default
+			font-weight font-weight-bold
+	.layer-header, .layer-footer
+		padding space
+	.layer-footer
+		text-align right
+	.layer-content
+		padding space * 2 space space
+	.layer-header
+		border-bottom 1px solid border-color-default
+	.icons
+		font-size 22px
+		cursor pointer
+		&:hover
+			color text-color-main-hover
+	.checkbox-inner
+		vertical-align middle
+		cursor pointer
+	.search-box
+		& + .sub-tree
+			margin-top space * 2
+.nodes-container
+	overflow auto
+	overflow-x hidden
+.sub-tree
+	node-height = 40px
+	line-space = 20px
+	tree-line-color = #a2a2a0
+	line-top = node-height / 2 - 1px
+	.for-editing
+		float right
+		display none
+		.icons
+			padding 4px
+			font-size 18px
+			margin-top 6px
+	li
+		// line-height node-height
+		.icons
+			float left
+			margin-top 9px
+	> li > .node-content
+		font-size font-size-big
+		font-weight font-weight-bold
+	[draggable=true]
+		> .node-content
+			cursor move
+			border 1px solid transparent
+			box-sizing border-box
+	.node-content
+		display block
+		padding 0 space
+		height node-height
+		line-height node-height
+		overflow hidden
+		text-overflow ellipsis
+		white-space nowrap
+		cursor pointer
+		> .icons
+			margin-left - space
+			padding-right 5px
+		&:hover
+			background optional-bg-color
+			> .icons
+				color text-color-main-hover
+			.checkbox-inner
+				border-color color-main
+		&.selected
+			background bg-color-main
+			color text-color-white
+			> .icons
+				color text-color-white
+		&.disabled
+			background transparent
+			color text-color-light
+			cursor not-allowed
+			> .icons
+				color text-color-light
+			> .checkbox-inner
+				border-color #d8dce5
+				cursor not-allowed
+			&.is-checked
+				> .checkbox-inner
+					background-color #d8dce5
+	&.editable
+		.node-content
+			&:hover, &.selected
+				.for-editing
+					display block
+	.sub-tree
+		margin-left 10px
+		.node-content
+			font-size font-size-default
+			font-weight font-weight-normal
+		li
+			padding-left line-space
+			position relative
+			border-left 1px dashed tree-line-color
+			display block
+			&:before
+				content ''
+				position absolute
+				left 0
+				width line-space
+				border-top 1px dashed tree-line-color
+				top line-top
+			&:last-child:after
+				content ''
+				position absolute
+				background bg-color-white
+				width 2px
+				top line-top
+				bottom 0
+				left -1px
+
+layer-sapce = space	/ 2
+.tree-selector
+	line-height 0
+	position relative
+	z-index 10
+	.place-holder
+		margin-top layer-sapce
+		display inline-block
+	.el-icon-arrow-down
+		margin-top -5px
+	.el-icon-arrow-down, .tree-selector-layer
+		transition all 0.3s ease-out
+	&.up
+		.el-icon-arrow-down
+			transform rotate(-180deg)
+		.tree-selector-layer
+			transform translateY(-100%)
+		.icons-box
+			& + .place-holder
+				transform translateY(- button-default - layer-sapce * 2)
+		.small
+			& + .place-holder
+				transform translateY(- button-small - layer-sapce * 2)
+		.big
+			& + .place-holder
+				transform translateY(- button-big - layer-sapce * 2)
+.tree-selector-layer
+	position absolute
+	background bg-color-white
+	min-width 240px
+	border 1px solid #e6ebf5
+	padding space
+	z-index 2000
+	border-radius 4px
+	box-shadow 0 2px 12px 0 rgba(0,0,0,.1)
+	box-sizing border-box
+	overflow auto
+	overflow-x hidden
+	.no-data
+		margin - space
+.el-form-item
+	.tree-selector
+		padding-top layer-sapce
+
+
+
