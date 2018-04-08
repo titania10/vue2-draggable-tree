@@ -267,15 +267,15 @@ export default {
 		},
 
 		handleCheckedChange1(node) {
-			console.log('you had checked:[ ' + this.treeVals1 + ' ]');
+			console.log('you had checked: [ ' + this.treeVals1 + ' ]');
 		},
 
 		handleSelectedChange0(node) {
-			console.log(this.treeSelectorVal);
+			console.log('you had selected: ' + this.treeSelectorVal);
 		},
 
 		handleSelectedChange1(node) {
-			console.log(this.treeSelectorVals);
+			console.log('you had selected: [ ' + this.treeSelectorVals+ ' ]');
 		},
 
 		addNode(node) {
@@ -308,8 +308,6 @@ export default {
 		width 50%
 		padding-left 40px
 		box-sizing border-box
-	.error-text
-		color #D0021B
 	.title
 		padding-left 40px
 </style>

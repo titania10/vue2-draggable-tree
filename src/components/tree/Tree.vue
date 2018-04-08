@@ -143,12 +143,6 @@
 			}
 		},
 
-		// updated() {
-		// 	if (this.treeOptions.draggable) {
-		// 		this.initDragAndDropNodes();
-		// 	}
-		// },
-
 		beforeDestroy() {
 			if (this.treeOptions.draggable) {
 				this.removeEvents();
@@ -262,12 +256,15 @@
 				deep: true
 			},
 
-			treeData: function() {
+			treeData: function(treeData) {
 				this.initTreeStatus();
 				if (this.treeOptions.draggable) {
 					this.$nextTick(function () {
 						this.initDragAndDropNodes();
 					});
+				}
+				if (treeData.length && treeData[0].open !== this.treeOptions.open) {
+					this.status.toggleTreeBranches(this.treeOptions.open);
 				}
 			},
 
