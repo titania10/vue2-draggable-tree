@@ -1,6 +1,7 @@
 import 'babel-polyfill';
 import Vue from 'vue'
 import App from './App'
+import './components/tree/style/tree.styl';
 
 Vue.config.productionTip = false
 

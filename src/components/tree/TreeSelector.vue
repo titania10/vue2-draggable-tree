@@ -8,7 +8,7 @@
 				readOnLy
 				:placeholder="placeholder"
 				ref="treeSelectorInput">
-			<i class="icons el-icon-arrow-down"></i>
+			<i class="icons icons-arrow-down"></i>
 		</div>
 		<span class="place-holder">
 			<div
@@ -23,12 +23,12 @@
 					:tree-data="treeData"
 					:options="options"
 					@on-checked-change="treeCheckedChange"
-					@on-checked="hide">
+					@on-checked="hideSelectorLayer">
 				</tree>
 				<div
 					v-else
 					class="no-data"
-					@click="hide">暂无选项
+					@click="hideSelectorLayer">暂无选项
 				</div>
 			</div>
 		</span>
@@ -42,20 +42,24 @@
 		props: {
 			treeData: {
 				type: Array,
-				default: [],
+				default: () => [],
 			},
+
 			options: {
 				type: Object,
-				default: {}
+				default: () => {},
 			},
+
 			treeSelectedIds: {
 				type: [String, Number, Array],
 				default: '',
 			},
+
 			placeholder: {
 				type: String,
 				default: '请选择...',
 			},
+
 			disabled: {
 				type: Boolean,
 				default: false,
@@ -67,12 +71,6 @@
 		model: {
 			prop: 'treeSelectedIds',
 			event: 'treeCheckedChange'
-		},
-
-		created () {
-			this.getWindowSize();
-			this.popoverWidth = this.defaultPopoverWidth;
-			this.treeSelectedResult = this.treeSelectedIds;
 		},
 
 		data() {
@@ -127,7 +125,7 @@
 				this.$emit('on-selected-change', node);
 			},
 
-			stop(event) {
+			stopPropagation(event) {
 				event.stopPropagation();
 			},
 
@@ -149,7 +147,7 @@
 				this.visible = !this.visible;
 			},
 
-			hide() {
+			hideSelectorLayer() {
 				this.visible = false;
 			},
 
@@ -187,6 +185,12 @@
 			}
 		},
 
+		created () {
+			this.getWindowSize();
+			this.popoverWidth = this.defaultPopoverWidth;
+			this.treeSelectedResult = this.treeSelectedIds;
+		},
+
 		mounted() {
 			this.treeSelectorInput = this.$refs.treeSelectorInput;
 			this.treeElment = this.$refs.treeElment;
@@ -196,8 +200,8 @@
 
 			//bind events
 			if (!this.disabled) {
-				this.treeSelectorLayer.addEventListener('click', this.stop);
-				document.body.addEventListener('click', this.hide);
+				this.treeSelectorLayer.addEventListener('click', this.stopPropagation);
+				document.body.addEventListener('click', this.hideSelectorLayer);
 				window.addEventListener('resize', this.getWindowSize);
 			}
 		},
@@ -210,8 +214,8 @@
 
 		beforeDestroy() {
 			if (!this.disabled) {
-				this.treeSelectorLayer.removeEventListener('click', this.stop);
-				document.body.removeEventListener('click', this.hide);
+				this.treeSelectorLayer.removeEventListener('click', this.stopPropagation);
+				document.body.removeEventListener('click', this.hideSelectorLayer);
 				window.removeEventListener('resize', this.getWindowSize);
 			}
 		}
