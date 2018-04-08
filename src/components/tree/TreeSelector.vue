@@ -12,10 +12,10 @@
 		</div>
 		<span class="place-holder">
 			<div
-				ref="treeSelectorLayer"
 				class="tree-selector-layer"
 				v-show="!disabled && visible"
-				:style="{width: popoverWidth + 'px', maxHeight: maxHeight}">
+				:style="{width: popoverWidth + 'px', maxHeight: maxHeight}"
+				@click.stop="stopPropagation">
 				<tree
 					v-if="treeData.length"
 					ref="treeElment"
@@ -194,13 +194,11 @@
 		mounted() {
 			this.treeSelectorInput = this.$refs.treeSelectorInput;
 			this.treeElment = this.$refs.treeElment;
-			this.treeSelectorLayer = this.$refs.treeSelectorLayer;
 			this.getLocation();
 			this.setSelectorChecked();
 
 			//bind events
 			if (!this.disabled) {
-				this.treeSelectorLayer.addEventListener('click', this.stopPropagation);
 				document.body.addEventListener('click', this.hideSelectorLayer);
 				window.addEventListener('resize', this.getWindowSize);
 			}
@@ -214,7 +212,6 @@
 
 		beforeDestroy() {
 			if (!this.disabled) {
-				this.treeSelectorLayer.removeEventListener('click', this.stopPropagation);
 				document.body.removeEventListener('click', this.hideSelectorLayer);
 				window.removeEventListener('resize', this.getWindowSize);
 			}
