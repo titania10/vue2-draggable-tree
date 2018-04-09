@@ -41,7 +41,7 @@ export default {
 					event.dataTransfer.dropEffect = 'none';
 				} else {
 					let targetNode;
-					for (var i = 0, l = this.droppableNodes.length; i < l; i++) {
+					for (let i = 0, l = this.droppableNodes.length; i < l; i++) {
 						let dropPosition = Utils.getElementPosition(this.droppableNodes[i]);
 						if (targetLocation.y >= dropPosition.top && targetLocation.y <= dropPosition.bottom) {
 							targetNode = this.droppableNodes[i];
@@ -119,7 +119,7 @@ export default {
 		},
 
 		clearDragOverStyle() {
-			for (var i = 0; i < this.droppableNodes.length; i++) {
+			for (let i = 0; i < this.droppableNodes.length; i++) {
 				this.droppableNodes[i].style.borderColor = 'transparent';
 				this.droppableNodes[i].style.background = '';
 			}
@@ -127,7 +127,7 @@ export default {
 
 		getTargetDropNode(targetLocation) {
 			let targetDropNode;
-			for (var i = 0, l = this.droppableNodes.length; i < l; i++) {
+			for (let i = 0, l = this.droppableNodes.length; i < l; i++) {
 				let position = Utils.getElementPosition(this.droppableNodes[i]);
 				if (targetLocation.y >= position.top && targetLocation.y <= position.bottom) {
 					targetDropNode = this.droppableNodes[i];
