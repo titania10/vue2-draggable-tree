@@ -57,7 +57,7 @@ export default class TreeStatus {
 			}
 		};
 		for (let [, node] of this.datas) {
-			Vue.set(node, 'visible', (node.label || node.name).indexOf(keyword) !== -1);
+			Vue.set(node, 'visible', node.label.indexOf(keyword) !== -1);
 			if (node.visible) {
 				_syncNodeStatus(node);
 			}
@@ -67,24 +67,6 @@ export default class TreeStatus {
 	//通过id查找树节点
 	getNode(key) {
 		return this.datas.get(key);
-	}
-
-	//云平台定制内容
-	changeSpecialCheckStatus(node) {
-		Vue.set(node, 'checked', !node.checked);
-
-		const _checkChildren = node => {
-			if (node.children && node.children.length) {
-				node.children.map(childNode => {
-					if (!childNode.disabled) {
-						Vue.set(childNode, 'checked', node.checked);
-					}
-					_checkChildren(childNode);
-				});
-			}
-		};
-
-		_checkChildren(node);
 	}
 
 	//多选时勾选

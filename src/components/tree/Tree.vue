@@ -49,11 +49,11 @@
 				</div>
 				<div class="layer-footer align-right">
 					<button
-						class="el-button el-button--default"
+						class="btn"
 						type="button"
 						@click="deletePopupVisable = false">取消</button>
 					<button
-						class="el-button el-button--primary"
+						class="btn btn-main"
 						type="button"
 						@click="sureDeleteNode">确定</button>
 				</div>
@@ -66,7 +66,6 @@
 	import MultipleTreeNode from './MultipleTreeNode';
 	import treeStatus from './treeStatus';
 	import DragDrop from './mixin/dragDrop';
-
 	export default {
 		name: 'tree',
 
@@ -117,7 +116,6 @@
 						lineColor: '#fea051',//拖拽经过放置位置线的颜色
 						backgroundColor: '#e4e8fb',//拖拽经过树节点的背景色
 					},
-					special: false,//单独为云平台逻辑定制
 					maxLevel: 10,//树的最大层级, 默认不限只层级
 					activeLevels: null,//可操作的树层级，默认全部可操作。在非拖拽模式下的单选树形结构才有效
 				},
@@ -178,14 +176,10 @@
 					return;
 				}
 				if (this.treeOptions.multiple) {
-					if (this.treeOptions.special) {//为云平台定制
-						this.status.changeSpecialCheckStatus(node);
+					if (this.treeOptions.halfCheck) {
+						this.status.changeHalfCheckStatus(node);
 					} else {
-						if (this.treeOptions.halfCheck) {
-							this.status.changeHalfCheckStatus(node);
-						} else {
-							this.status.changeCheckStatus(node);
-						}
+						this.status.changeCheckStatus(node);
 					}
 					this.treeSelectedResult = this.status.getSelectedNodeIds();
 					this.$emit('handleCheckedChange', this.treeSelectedResult);
@@ -228,7 +222,6 @@
 						let level = parseInt(activeLevel);
 						return !isNaN(level) && level > 0;
 					});
-
 					if (newLevels.length) {
 						overWriteOptions.activeLevels = newLevels;
 					}
@@ -254,7 +247,7 @@
 					this.removeEvents();
 					this.bindEvents();
 				} catch (e) {
-					console.warn(e);
+					console.error(e);
 				}
 			},
 
@@ -300,7 +293,6 @@
 			}
 		},
 	};
-
 </script>
 <style lang="stylus" scoped>
 </style>

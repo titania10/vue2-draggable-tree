@@ -41,6 +41,7 @@
 				type: Array,
 				default: () => [],
 			},
+
 			options: {
 				type: Object,
 				default: () => {},

@@ -8,7 +8,7 @@
 				readOnLy
 				:placeholder="placeholder"
 				ref="treeSelectorInput">
-			<i class="icons el-icon-arrow-down"></i>
+			<i class="icons icons-arrow-down"></i>
 		</div>
 		<span class="place-holder">
 			<div
@@ -39,14 +39,15 @@
 	import Utils from './utils';
 	export default {
 		name: 'treeSelector',
+
 		props: {
 			treeData: {
 				type: Array,
-				default: [],
+				default: () => [],
 			},
 			options: {
 				type: Object,
-				default: {}
+				default: () => {},
 			},
 			treeSelectedIds: {
 				type: [String, Number, Array],
@@ -69,17 +70,10 @@
 			event: 'treeCheckedChange'
 		},
 
-		created () {
-			this.getWindowSize();
-			this.popoverWidth = this.defaultPopoverWidth;
-			this.treeSelectedResult = this.treeSelectedIds;
-		},
-
 		data() {
 			return {
 				treeSelectedResult: '',
 				treeSelectedText: '',
-
 				location: {},//tree seletor current location
 				windowSize: {},
 				visible: false,
@@ -175,16 +169,22 @@
 						try {
 							node = this.treeElment && this.treeElment.status.getNode(this.treeSelectedResult);
 							if (node) {
-								this.treeSelectedText = node.label || node.name;
+								this.treeSelectedText = node.label;
 							}
 						} catch(e) {
 							console.error(e);
 						}
 					} else {
-						this.treeSelectedText = node.label || node.name;
+						this.treeSelectedText = node.label;
 					}
 				}
 			}
+		},
+
+		created() {
+			this.getWindowSize();
+			this.popoverWidth = this.defaultPopoverWidth;
+			this.treeSelectedResult = this.treeSelectedIds;
 		},
 
 		mounted() {
@@ -192,7 +192,6 @@
 			this.treeElment = this.$refs.treeElment;
 			this.getLocation();
 			this.setSelectorChecked();
-
 			//bind events
 			if (!this.disabled) {
 				document.body.addEventListener('click', this.hideSelectorLayer);
@@ -213,7 +212,6 @@
 			}
 		}
 	};
-
 </script>
 <style lang="stylus" scoped>
 </style>

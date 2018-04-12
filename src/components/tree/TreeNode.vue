@@ -35,7 +35,7 @@
 					@click.stop="handleNodeExpand(node)"
 					v-if="node.children && node.children.length">
 				</i>
-				<span>{{ node.label || node.name }}</span>
+				<span>{{ node.label }}</span>
 			</label>
 			<tree-node
 				:tree-data="node.children"
@@ -55,6 +55,7 @@
 	import Vue from 'vue';
 	export default {
 		name: 'treeNode',
+
 		props: {
 			treeData: {
 				type: Array,
