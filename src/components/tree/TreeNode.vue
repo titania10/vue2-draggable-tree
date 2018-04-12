@@ -15,7 +15,7 @@
 				class="node-content"
 				:class="{'selected': setNodeSelected(node), 'disabled': node.disabled}"
 				@click="handleCheckedChange(node)">
-				<template v-if="editable">
+				<template v-if="editable && !node.disabled">
 					<span
 						class="for-editing"
 						v-if="!node.children || node.children.length === 0">
@@ -35,7 +35,7 @@
 					@click.stop="handleNodeExpand(node)"
 					v-if="node.children && node.children.length">
 				</i>
-				<span>{{ node.label }}</span>
+				<span>{{ node.label || node.name }}</span>
 			</label>
 			<tree-node
 				:tree-data="node.children"

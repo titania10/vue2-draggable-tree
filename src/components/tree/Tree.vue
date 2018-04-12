@@ -49,11 +49,11 @@
 				</div>
 				<div class="layer-footer align-right">
 					<button
-						class="btn"
+						class="el-button el-button--default"
 						type="button"
 						@click="deletePopupVisable = false">取消</button>
 					<button
-						class="btn btn-main"
+						class="el-button el-button--primary"
 						type="button"
 						@click="sureDeleteNode">确定</button>
 				</div>
@@ -117,8 +117,9 @@
 						lineColor: '#fea051',//拖拽经过放置位置线的颜色
 						backgroundColor: '#e4e8fb',//拖拽经过树节点的背景色
 					},
+					special: false,//单独为云平台逻辑定制
 					maxLevel: 10,//树的最大层级, 默认不限只层级
-					activeLevel: null,//可操作的树层级，默认全部可操作
+					activeLevels: null,//可操作的树层级，默认全部可操作。在非拖拽模式下的单选树形结构才有效
 				},
 				treeOptions: {},
 				deletePopupVisable: false,
@@ -177,10 +178,14 @@
 					return;
 				}
 				if (this.treeOptions.multiple) {
-					if (this.treeOptions.halfCheck) {
-						this.status.changeHalfCheckStatus(node);
+					if (this.treeOptions.special) {//为云平台定制
+						this.status.changeSpecialCheckStatus(node);
 					} else {
-						this.status.changeCheckStatus(node);
+						if (this.treeOptions.halfCheck) {
+							this.status.changeHalfCheckStatus(node);
+						} else {
+							this.status.changeCheckStatus(node);
+						}
 					}
 					this.treeSelectedResult = this.status.getSelectedNodeIds();
 					this.$emit('handleCheckedChange', this.treeSelectedResult);
@@ -207,15 +212,33 @@
 			},
 
 			initTreeOptions() {
+				let overWriteOptions = {
+					maxLevel: this.defaultOptions.maxLevel,
+					activeLevels: this.defaultOptions.activeLevels,
+				};
+
 				this.options.maxLevel = parseInt(this.options.maxLevel);
 				if (isNaN(this.options.maxLevel)) {
-					delete this.options.maxLevel;
+					delete overWriteOptions.maxLevel;
 				}
-				this.options.activeLevel = parseInt(this.options.activeLevel);
-				if (isNaN(this.options.activeLevel)) {
-					delete this.options.activeLevel;
+
+				if (!this.options.draggable && !this.options.multiple &&
+					this.options.activeLevels instanceof Array && this.options.activeLevels.length) {
+					let newLevels = this.options.activeLevels.filter(activeLevel => {
+						let level = parseInt(activeLevel);
+						return !isNaN(level) && level > 0;
+					});
+
+					if (newLevels.length) {
+						overWriteOptions.activeLevels = newLevels;
+					}
 				}
-				this.treeOptions = Object.assign({}, this.defaultOptions, this.options);
+
+				this.treeOptions = {
+					...this.defaultOptions,
+					...this.options,
+					...overWriteOptions
+				};
 			},
 
 			initTreeStatus() {
@@ -231,7 +254,7 @@
 					this.removeEvents();
 					this.bindEvents();
 				} catch (e) {
-					console.error(e);
+					console.warn(e);
 				}
 			},
 

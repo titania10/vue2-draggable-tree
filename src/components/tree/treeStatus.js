@@ -9,10 +9,13 @@ export default class TreeStatus {
 				// node.treeLevel = pTreeLevel + 1;
 				Vue.set(node, 'treeLevel', pTreeLevel + 1);
 				if (node.treeLevel >= opt.maxLevel && node.children && node.children.length) {
-					for (let cild of node.children) {
-						opt.treeData.push(cild);
+					for (let child of node.children) {
+						opt.treeData.push(child);
 					}
 					node.children = [];
+				}
+				if (opt.activeLevels && opt.activeLevels.length) {
+					node.disabled = opt.activeLevels.indexOf(node.treeLevel) === -1;
 				}
 				this.datas.set(node.id, node);
 				if (node.children && node.children.length) {
@@ -54,7 +57,7 @@ export default class TreeStatus {
 			}
 		};
 		for (let [, node] of this.datas) {
-			Vue.set(node, 'visible', node.label.indexOf(keyword) !== -1);
+			Vue.set(node, 'visible', (node.label || node.name).indexOf(keyword) !== -1);
 			if (node.visible) {
 				_syncNodeStatus(node);
 			}
@@ -64,6 +67,24 @@ export default class TreeStatus {
 	//通过id查找树节点
 	getNode(key) {
 		return this.datas.get(key);
+	}
+
+	//云平台定制内容
+	changeSpecialCheckStatus(node) {
+		Vue.set(node, 'checked', !node.checked);
+
+		const _checkChildren = node => {
+			if (node.children && node.children.length) {
+				node.children.map(childNode => {
+					if (!childNode.disabled) {
+						Vue.set(childNode, 'checked', node.checked);
+					}
+					_checkChildren(childNode);
+				});
+			}
+		};
+
+		_checkChildren(node);
 	}
 
 	//多选时勾选
@@ -249,4 +270,4 @@ export default class TreeStatus {
 			this.removeNodeById(newNodeId, false, direction);
 		}
 	}
-}
+};

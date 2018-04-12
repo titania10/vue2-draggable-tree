@@ -8,7 +8,7 @@
 				readOnLy
 				:placeholder="placeholder"
 				ref="treeSelectorInput">
-			<i class="icons icons-arrow-down"></i>
+			<i class="icons el-icon-arrow-down"></i>
 		</div>
 		<span class="place-holder">
 			<div
@@ -42,24 +42,20 @@
 		props: {
 			treeData: {
 				type: Array,
-				default: () => [],
+				default: [],
 			},
-
 			options: {
 				type: Object,
-				default: () => {},
+				default: {}
 			},
-
 			treeSelectedIds: {
 				type: [String, Number, Array],
 				default: '',
 			},
-
 			placeholder: {
 				type: String,
 				default: '请选择...',
 			},
-
 			disabled: {
 				type: Boolean,
 				default: false,
@@ -71,6 +67,12 @@
 		model: {
 			prop: 'treeSelectedIds',
 			event: 'treeCheckedChange'
+		},
+
+		created () {
+			this.getWindowSize();
+			this.popoverWidth = this.defaultPopoverWidth;
+			this.treeSelectedResult = this.treeSelectedIds;
 		},
 
 		data() {
@@ -173,22 +175,16 @@
 						try {
 							node = this.treeElment && this.treeElment.status.getNode(this.treeSelectedResult);
 							if (node) {
-								this.treeSelectedText = node.label;
+								this.treeSelectedText = node.label || node.name;
 							}
 						} catch(e) {
 							console.error(e);
 						}
 					} else {
-						this.treeSelectedText = node.label;
+						this.treeSelectedText = node.label || node.name;
 					}
 				}
 			}
-		},
-
-		created () {
-			this.getWindowSize();
-			this.popoverWidth = this.defaultPopoverWidth;
-			this.treeSelectedResult = this.treeSelectedIds;
 		},
 
 		mounted() {
@@ -221,4 +217,3 @@
 </script>
 <style lang="stylus" scoped>
 </style>
-

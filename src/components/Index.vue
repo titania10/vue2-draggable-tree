@@ -73,6 +73,7 @@ export default {
 			},
 
 			selectorOptions0: {
+				activeLevels: [4,2],
 			},
 
 			selectorOptions1: {
