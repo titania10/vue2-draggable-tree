@@ -76,7 +76,10 @@ export default {
 		},
 
 		drop(event) {
+			//preventDefault and stopPropagation to stop firefox to open new tabp when drop node
 			event.preventDefault();
+			event.stopPropagation();
+
 			if (this.draggingNode) {
 				let targetLocation = {
 					x: event.pageX,
