@@ -14,12 +14,31 @@ export default {
 			return false;
 		},
 
+			getElementOffset(element){
+		    let left = element.offsetLeft,
+				top = element.offsetTop,
+				current = element.offsetParent;
+		    while (current !== null){
+		        left += current.offsetLeft;
+		        top += current.offsetTop;
+		        current = current.offsetParent;
+		    }
+		    return {
+		    	left,
+		    	top
+		    };
+		},
 		dragstart(event) {
 			this.draggingNode = event.target;
 			event.dataTransfer.effectAllowed = 'move';
 			event.dataTransfer.setData("text", this.draggingNode.innerHTML);
 			if (event.dataTransfer.setDragImage) {
-				event.dataTransfer.setDragImage(event.target, 0, 0);
+				// event.dataTransfer.setDragImage(event.target, 0, 0);
+				let offset = this.getElementOffset(event.target),
+					x = event.pageX - offset.left,
+					y = event.pageY - offset.top;
+					console.log(x, y);
+				event.dataTransfer.setDragImage(event.target, x, y);
 			}
 			this.startLocation = {
 				x: event.pageX,
