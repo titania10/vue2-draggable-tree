@@ -101,7 +101,7 @@
 			return {
 				status: {},//树的状态及操作数的方法
 				treeSelectedResult: null,//树的选中值
-				searchKeyword: null,//查找树节点的关键字
+				searchKeyword: '',//查找树节点的关键字
 				defaultOptions: {
 					showSearch: false,//默认不开启搜索
 					searchPlaceHolder: '',//开启搜索时可设置搜索框的placeHolder
@@ -261,6 +261,12 @@
 		watch: {
 			searchKeyword: function(keyword) {
 				this.status.filterNodes(keyword);
+
+				if (this.treeOptions.draggable) {
+					this.$nextTick(function () {
+						this.initDragAndDropNodes();
+					});
+				}
 			},
 
 			options: {
@@ -274,13 +280,19 @@
 
 			treeData: function(treeData) {
 				this.initTreeStatus();
+
 				if (this.treeOptions.draggable) {
 					this.$nextTick(function () {
 						this.initDragAndDropNodes();
 					});
 				}
+
 				if (treeData.length && treeData[0].open !== this.treeOptions.open) {
 					this.status.toggleTreeBranches(this.treeOptions.open);
+				}
+
+				if (this.treeOptions.showSearch) {
+					this.status.filterNodes(this.searchKeyword);
 				}
 			},
 
