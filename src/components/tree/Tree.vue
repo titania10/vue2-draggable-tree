@@ -211,9 +211,9 @@
 					activeLevels: this.defaultOptions.activeLevels,
 				};
 
-				this.options.maxLevel = parseInt(this.options.maxLevel);
-				if (isNaN(this.options.maxLevel)) {
-					delete overWriteOptions.maxLevel;
+				overWriteOptions.maxLevel = parseInt(this.options.maxLevel);
+				if (isNaN(overWriteOptions.maxLevel)) {
+					overWriteOptions.maxLevel = this.defaultOptions.maxLevel;
 				}
 
 				if (!this.options.draggable && !this.options.multiple &&
