@@ -18,4 +18,7 @@ npm run build
 npm run build --report
 ```
 
+see the demo:
+https://titania10.github.io/vue2-draggable-tree/dist/
+
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
