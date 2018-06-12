@@ -14,30 +14,15 @@ export default {
 			return false;
 		},
 
-			getElementOffset(element){
-		    let left = element.offsetLeft,
-				top = element.offsetTop,
-				current = element.offsetParent;
-		    while (current !== null){
-		        left += current.offsetLeft;
-		        top += current.offsetTop;
-		        current = current.offsetParent;
-		    }
-		    return {
-		    	left,
-		    	top
-		    };
-		},
 		dragstart(event) {
 			this.draggingNode = event.target;
+			this.draggingNode.classList.add('active');
 			event.dataTransfer.effectAllowed = 'move';
 			event.dataTransfer.setData("text", this.draggingNode.innerHTML);
 			if (event.dataTransfer.setDragImage) {
-				// event.dataTransfer.setDragImage(event.target, 0, 0);
-				let offset = this.getElementOffset(event.target),
+				let offset = Utils.getElementPosition(event.target),
 					x = event.pageX - offset.left,
 					y = event.pageY - offset.top;
-					console.log(x, y);
 				event.dataTransfer.setDragImage(event.target, x, y);
 			}
 			this.startLocation = {
@@ -134,6 +119,7 @@ export default {
 
 		dragend(event) {
 			this.clearDragOverStyle();
+			this.draggingNode && this.draggingNode.classList.remove('active');
 			event.dataTransfer.clearData('text');
 			this.draggingNode = null;
 			this.startLocation = null;
