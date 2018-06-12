@@ -16,10 +16,14 @@ export default {
 
 		dragstart(event) {
 			this.draggingNode = event.target;
+			this.draggingNode.classList.add('active');
 			event.dataTransfer.effectAllowed = 'move';
 			event.dataTransfer.setData("text", this.draggingNode.innerHTML);
 			if (event.dataTransfer.setDragImage) {
-				event.dataTransfer.setDragImage(event.target, 0, 0);
+				let offset = Utils.getElementPosition(event.target),
+					x = event.pageX - offset.left,
+					y = event.pageY - offset.top;
+				event.dataTransfer.setDragImage(event.target, x, y);
 			}
 			this.startLocation = {
 				x: event.pageX,
@@ -115,6 +119,7 @@ export default {
 
 		dragend(event) {
 			this.clearDragOverStyle();
+			this.draggingNode && this.draggingNode.classList.remove('active');
 			event.dataTransfer.clearData('text');
 			this.draggingNode = null;
 			this.startLocation = null;

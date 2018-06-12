@@ -5,7 +5,7 @@ ul, li
 	margin 0
 	padding 0
 	list-style none
-	
+
 //button style
 .btn
 	width auto
@@ -248,6 +248,12 @@ ul, li
 			&.is-checked
 				> .checkbox-inner
 					background-color #d8dce5
+	.active
+		> .node-content
+			background bg-color-current
+			color text-color-white
+			> .icons
+				color text-color-white
 	&.editable
 		.node-content
 			&:hover, &.selected

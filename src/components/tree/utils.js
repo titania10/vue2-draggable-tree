@@ -6,10 +6,10 @@ const Utils = {
 			let offsetY = document.documentElement.clientTop;
 			let offsetX = document.documentElement.clientLeft;
 			return {
-				top: position.top - offsetY,
-				bottom: position.bottom - offsetY,
-				left: position.left - offsetX,
-				right: position.right - offsetX,
+				top: position.top - offsetY + window.pageYOffset,
+				bottom: position.bottom - offsetY + window.pageYOffset,
+				left: position.left - offsetX + window.pageXOffset,
+				right: position.right - offsetX + window.pageXOffset,
 				width: position.width,
 				height: position.height,
 			};
